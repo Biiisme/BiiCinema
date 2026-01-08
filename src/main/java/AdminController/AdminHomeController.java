@@ -11,9 +11,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import Movie_Modal.Movie;
 import Movie_Modal.Movie_Bo;
+import User_Modal.User;
 
 /**
  * Servlet implementation class AdminHomeControll
@@ -34,6 +36,17 @@ public class AdminHomeController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		HttpSession session = request.getSession();
+
+        // Lấy admin từ session
+        User ad = (User) session.getAttribute("dn");
+
+        // Nếu chưa đăng nhập → quay về trang đăng nhập
+        if (ad == null || !"admin".equals(ad.getRole())) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
 		ArrayList<Movie>listSearch = new ArrayList<Movie>();
 		List<String> dsm = new ArrayList<String>();
 		Movie_Bo PhimBo = new Movie_Bo();

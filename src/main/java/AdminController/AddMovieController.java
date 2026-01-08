@@ -80,21 +80,52 @@ public class AddMovieController extends HttpServlet {
     }
 
     private void processMovieUpload(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        javax.servlet.http.HttpSession session = request.getSession();
         try {
             DiskFileItemFactory factory = new DiskFileItemFactory();
             ServletFileUpload upload = new ServletFileUpload(factory);
-            String uploadPath = request.getServletContext().getRealPath("") +  File.separator +  "images";
-            System.out.println(uploadPath);
+            String uploadPath = request.getServletContext().getRealPath("") + File.separator + "images";
+            System.out.println("Upload path: " + uploadPath);
+            
             List<FileItem> fileItems = upload.parseRequest(request);
             Movie movie = extractMovieData(fileItems, uploadPath);
             
             Movie_Bo mvBo = new Movie_Bo();
-            mvBo.addMovie(movie);
+            
+            // Kiểm tra nếu có movie_id thì là update, không có thì là add
+            if (movie.getPhim_ID() > -1) {
+                // Update phim - nếu không có poster mới thì giữ nguyên poster cũ
+                if (movie.getPoster_url() == null || movie.getPoster_url().isEmpty()) {
+                    Movie existingMovie = mvBo.ChiTietphim(movie.getPhim_ID());
+                    if (existingMovie != null) {
+                        movie.setPoster_url(existingMovie.getPoster_url());
+                    }
+                }
+                
+                boolean success = mvBo.update(movie);
+                if (success) {
+                    session.setAttribute("msg", "Cập nhật phim thành công!");
+                } else {
+                    session.setAttribute("msg", "Cập nhật phim thất bại!");
+                }
+            } else {
+                // Add phim mới - phải có poster
+                if (movie.getPoster_url() == null || movie.getPoster_url().isEmpty()) {
+                    throw new Exception("Vui lòng chọn poster cho phim!");
+                }
+                
+                boolean success = mvBo.addMovie(movie);
+                if (success) {
+                    session.setAttribute("msg", "Thêm phim thành công!");
+                } else {
+                    session.setAttribute("msg", "Thêm phim thất bại!");
+                }
+            }
 
             response.sendRedirect("AdminHomeController");
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("error", "Lỗi khi xử lý dữ liệu phim.");
+            request.setAttribute("error", "Lỗi khi xử lý dữ liệu phim: " + e.getMessage());
             forwardToPage(request, response, "adminAdd_movie.jsp");
         }
     }
@@ -102,47 +133,73 @@ public class AddMovieController extends HttpServlet {
     private Movie extractMovieData(List<FileItem> fileItems, String uploadPath) throws Exception {
         String tenPhim = "", posterUrl = "", moTaNgan = "", moTaDai = "", daoDien = "", dienVien = "", trailerUrl = "", loai = "", ngayKhoiChieu = "", doiTuong = "";
         int thoiLuong = 0;
+        String movieIdStr = "";
 
         for (FileItem item : fileItems) {
             if (!item.isFormField()) {
+                // Xử lý file upload
                 String fileName = item.getName();
-                if (!fileName.isEmpty()) {
+                if (fileName != null && !fileName.isEmpty()) {
                     File uploadDir = new File(uploadPath);
-                    if (!uploadDir.exists()) uploadDir.mkdir();
+                    if (!uploadDir.exists()) {
+                        uploadDir.mkdirs();
+                    }
                     
-                    File file = new File(uploadPath + File.separator + fileName);
-                    if (!file.exists()) {//nếu ko có thư mục thì tạo ra
-                    	file.mkdir();
-					}
-				            String fileImg = uploadPath + File.separator + fileName;
-				            posterUrl = "images/" + fileName;
-				           File file1 = new File(posterUrl);//tạo file
-				            try {
-				            	item.write(file1);//lưu file
-				              System.out.println("UPLOAD THÀNH CÔNG...!");
-				              System.out.println("Đường dẫn lưu file là: "+fileImg);
-				 } catch (Exception e) {
-				    e.printStackTrace();
-				}
+                    // Tạo file với tên unique để tránh trùng
+                    String fileExtension = "";
+                    int lastDot = fileName.lastIndexOf('.');
+                    if (lastDot > 0) {
+                        fileExtension = fileName.substring(lastDot);
+                    }
+                    String uniqueFileName = System.currentTimeMillis() + fileExtension;
+                    File uploadedFile = new File(uploadPath + File.separator + uniqueFileName);
                     
+                    try {
+                        item.write(uploadedFile);
+                        posterUrl = "images/" + uniqueFileName;
+                        System.out.println("UPLOAD THÀNH CÔNG: " + uploadedFile.getAbsolutePath());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        throw new Exception("Lỗi khi upload file: " + e.getMessage());
+                    }
                 }
             } else {
-                switch (item.getFieldName()) {
-                    case "TenPhim": tenPhim = item.getString(); break;
-                    case "MoTaNgan": moTaNgan = item.getString(); break;
-                    case "MoTaDai": moTaDai = item.getString(); break;
-                    case "DaoDien": daoDien = item.getString(); break;
-                    case "DienVien": dienVien = item.getString(); break;
-                    case "trailer_url": trailerUrl = item.getString(); break;
-                    case "TheLoai": loai = item.getString(); break;
-                    case "NgayPhatHanh": ngayKhoiChieu = item.getString(); break;
-                    case "DoiTuong": doiTuong = item.getString(); break;
-                    case "ThoiLuong": thoiLuong = Integer.parseInt(item.getString()); break;
+                // Xử lý các field form
+                String fieldName = item.getFieldName();
+                String fieldValue = item.getString("UTF-8");
+                
+                switch (fieldName) {
+                    case "TenPhim": tenPhim = fieldValue; break;
+                    case "MoTaNgan": moTaNgan = fieldValue; break;
+                    case "MoTaDai": moTaDai = fieldValue; break;
+                    case "DaoDien": daoDien = fieldValue; break;
+                    case "DienVien": dienVien = fieldValue; break;
+                    case "LinkTrailer": 
+                    case "trailer_url": trailerUrl = fieldValue; break;
+                    case "TheLoai": loai = fieldValue; break;
+                    case "NgayPhatHanh": ngayKhoiChieu = fieldValue; break;
+                    case "DoiTuong": doiTuong = fieldValue; break;
+                    case "ThoiLuong": 
+                        if (fieldValue != null && !fieldValue.isEmpty()) {
+                            thoiLuong = Integer.parseInt(fieldValue);
+                        }
+                        break;
+                    case "movie_id":
+                    case "Phim_ID": movieIdStr = fieldValue; break;
                 }
             }
         }
 
-        return new Movie(1, tenPhim, posterUrl, moTaNgan, moTaDai, daoDien, dienVien, trailerUrl, loai, doiTuong, ngayKhoiChieu, thoiLuong);
+        int movieId = 0;
+        if (movieIdStr != null && !movieIdStr.isEmpty()) {
+            try {
+                movieId = Integer.parseInt(movieIdStr);
+            } catch (NumberFormatException e) {
+                movieId = 0;
+            }
+        }
+
+        return new Movie(movieId, tenPhim, posterUrl, moTaNgan, moTaDai, daoDien, dienVien, trailerUrl, loai, doiTuong, ngayKhoiChieu, thoiLuong);
     }
 
     private void forwardToPage(HttpServletRequest request, HttpServletResponse response, String page) throws ServletException, IOException {

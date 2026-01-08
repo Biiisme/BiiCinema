@@ -38,6 +38,12 @@ public class HistoryController extends HttpServlet {
 		HttpSession session = request.getSession();
 		User u = new User();
  		u=(User)session.getAttribute("dn");
+ 		
+ 		if(u==null) {
+ 			RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+ 			rd.forward(request, response);
+ 			return;
+ 		}
 		history_Bo hisBo=new history_Bo();
 		ArrayList<history> tem = new ArrayList<history>();
 		try {
