@@ -126,6 +126,10 @@
                             <div class="mb-3">
                                 <label for="movieTrailer" class="form-label">Link trailer</label>
                                 <input type="url" class="form-control" id="movieTrailer" name="LinkTrailer" value="<%=mv.getTrailer_url() != null ? mv.getTrailer_url() : "" %>" required>
+                                <div class="form-text">
+                                    Nhập URL YouTube (ví dụ: https://www.youtube.com/watch?v=dQw4w9WgXcQ)<br>
+                                    <small class="text-muted">Hệ thống sẽ tự động chuyển đổi thành embed URL để hiển thị trailer.</small>
+                                </div>
                             </div>
                             <button type="submit" class="btn btn-primary">Cập nhật</button>
                         </form>
@@ -188,6 +192,10 @@
                             <div class="mb-3">
                                 <label for="movieTrailer" class="form-label">Link trailer</label>
                                 <input type="url" class="form-control" id="movieTrailer" name="LinkTrailer" required>
+                                <div class="form-text">
+                                    Nhập URL YouTube (ví dụ: https://www.youtube.com/watch?v=dQw4w9WgXcQ)<br>
+                                    <small class="text-muted">Hệ thống sẽ tự động chuyển đổi thành embed URL để hiển thị trailer.</small>
+                                </div>
                             </div>
                             <button type="submit" class="btn btn-primary">Thêm phim</button>
                         </form>

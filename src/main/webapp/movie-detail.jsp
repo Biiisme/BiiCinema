@@ -1,6 +1,40 @@
 <%@page import="Movie_Modal.Movie"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
+<%!
+    // Function đơn giản để chuyển đổi URL YouTube thành embed URL
+    public String convertToEmbedUrl(String url) {
+        if (url == null || url.trim().isEmpty()) {
+            return "";
+        }
+
+        url = url.trim();
+
+        // Xử lý URL youtu.be (short URL)
+        if (url.contains("youtu.be/")) {
+            String videoId = url.substring(url.lastIndexOf("/") + 1);
+            // Loại bỏ tham số sau video ID
+            if (videoId.contains("?")) {
+                videoId = videoId.substring(0, videoId.indexOf("?"));
+            }
+            return "https://www.youtube.com/embed/" + videoId;
+        }
+
+        // Xử lý URL youtube.com/watch (standard URL)
+        if (url.contains("youtube.com/watch?v=")) {
+            String videoId = url.substring(url.indexOf("v=") + 2);
+            // Loại bỏ tham số sau video ID
+            if (videoId.contains("&")) {
+                videoId = videoId.substring(0, videoId.indexOf("&"));
+            }
+            return "https://www.youtube.com/embed/" + videoId;
+        }
+
+        // Nếu đã là embed URL hoặc URL khác, trả về nguyên bản
+        return url;
+    }
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -75,11 +109,22 @@
     <div style="display:flex;">
         <div style="margin-right: 50px">
             <h1>Trailer:</h1>
-            <iframe width="560" height="315" src="<%= temp.getTrailer_url() %>"
-                    title="YouTube video player" frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; gyroscope; picture-in-picture"
-                    allowfullscreen>
-            </iframe>
+            <%
+                String trailerUrl = temp.getTrailer_url();
+                String embedUrl = convertToEmbedUrl(trailerUrl);
+            %>
+            <% if (embedUrl != null && !embedUrl.isEmpty()) { %>
+                <iframe width="560" height="315" src="<%= embedUrl %>"
+                        title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                </iframe>
+            <% } else { %>
+                <div class="alert alert-warning" style="width: 560px; padding: 20px;">
+                    <h5>Trailer chưa được cập nhật</h5>
+                    <p>Trailer của phim này chưa được cung cấp.</p>
+                </div>
+            <% } %>
         </div>
         <div>
             <h1>Giới Thiệu:</h1>
