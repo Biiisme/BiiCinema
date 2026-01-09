@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add User</title>
+    <title>Cập nhật User</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
@@ -20,7 +20,7 @@
         .form-label {
             font-weight: bold;
         }
-      
+
         .sidebar {
             background-color: #2d3741;
             min-height: 100vh;
@@ -48,7 +48,7 @@
             padding: 5px 15px;
             border-radius: 5px;
         }
- 
+
     </style>
 </head>
 <body>
@@ -56,57 +56,60 @@
         <div class="row">
             <!-- Sidebar -->
             <jsp:include page="layout/sidebarAdmin.jsp"/>
-          
+
             <!-- Main Content -->
             <div class="col-md-12 col-lg-10 px-4">
                 <!-- Header with Login Button -->
                 <jsp:include page="layout/header.jsp"/>
 
- 	
-			
-		
+                <%
+                User user = (User) request.getAttribute("user");
+                %>
+
                 <div class="pt-3">
-                    <h2 class="mb-4">Thêm user</h2>
+                    <h2 class="mb-4">Cập nhật user</h2>
                     <div class="form-container">
-                        <form class="form-horizontal" action="AddUserController" method="post" >
+                        <form class="form-horizontal" action="UpdateUserController" method="post" >
+                            <input type="hidden" name="userID" value="<%= user.getMaUser() %>">
                             <div class="mb-3">
-                                <label for="movieTitle" class="form-label">Họ tên</label>
-                                <input type="text" class="form-control" id="movieTitle" name="HoTen" required>
+                                <label for="hoten" class="form-label">Họ tên</label>
+                                <input type="text" class="form-control" id="hoten" name="HoTen" value="<%= user.getHoten() %>" required>
                             </div>
                             <div class="mb-3">
-                                <label for="movieTitle" class="form-label">SĐT</label>
-                                <input type="text" class="form-control" id="movieTitle" name="SDT" required>
+                                <label for="sdt" class="form-label">SĐT</label>
+                                <input type="text" class="form-control" id="sdt" name="SDT" value="<%= user.getSDT() %>" required>
                             </div>
                               <div class="mb-3">
-                                <label for="movieTitle" class="form-label">Email</label>
-                                <input type="text" class="form-control" id="movieTitle" name="Email" required>
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="Email" value="<%= user.getEmail() %>" required>
                             </div>
                              <div class="mb-3">
-                                <label for="movieTitle" class="form-label">Tên đăng nhập</label>
-                                <input type="text" class="form-control" id="movieTitle" name="TenDN" required>
+                                <label for="tendn" class="form-label">Tên đăng nhập</label>
+                                <input type="text" class="form-control" id="tendn" name="TenDN" value="<%= user.getTenDN() %>" required>
                             </div>
                             <div class="mb-3">
                                 <label for="matkhau" class="form-label">Mật khẩu</label>
-                                <input type="password" class="form-control" id="matkhau" name="MatKhau" required>
+                                <input type="password" class="form-control" id="matkhau" name="MatKhau" value="<%= user.getMatKhau() %>" required>
                             </div>
                             <div class="mb-3">
                                 <label for="role" class="form-label">Quyền</label>
                                 <select class="form-control" id="role" name="Role" required>
-                                    <option value="customer">Customer</option>
-                                    <option value="admin">Admin</option>
+                                    <option value="customer" <%= user.getRole().equals("customer") ? "selected" : "" %>>Customer</option>
+                                    <option value="admin" <%= user.getRole().equals("admin") ? "selected" : "" %>>Admin</option>
                                 </select>
                             </div>
-                            
-                            <button type="submit" name="AddUser" value="them" class="btn btn-primary">Thêm user</button>
+
+                            <button type="submit" name="btUpdate" value="update" class="btn btn-primary">Cập nhật user</button>
+                            <a href="UserHomeController" class="btn btn-secondary">Hủy</a>
                         </form>
                     </div>
                 </div>
             </div>
 
-	
+
      </div>
-     
-    
+
+
     <!-- Bootstrap 5 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

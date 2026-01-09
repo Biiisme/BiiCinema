@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import Movie_Modal.Movie_Bo;
 import User_Modal.User;
 import User_Modal.UserBo;
 
@@ -48,9 +47,10 @@ public class AddUserController extends HttpServlet {
 			 String email = request.getParameter("Email");
 			 String TenDN = request.getParameter("TenDN");
 			 String matkhau = request.getParameter("MatKhau");
-			 
+			 String role = request.getParameter("Role");
+
 			 UserBo u = new UserBo();
-			 User user1= new User(1,hoten,sdt,email,TenDN,"customer",matkhau);
+			 User user1= new User(1,hoten,sdt,email,TenDN,role,matkhau);
 			 try {
 				u.addUser(user1);
 				response.sendRedirect("UserHomeController");

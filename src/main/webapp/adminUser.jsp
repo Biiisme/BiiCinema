@@ -111,7 +111,7 @@
                                     <td><%=ds.get(i).getRole() %></td>
                                     <td>
                                     
-                                        <a href="AddMovieController?UpdateMovie=" 
+                                        <a href="UpdateUserController?userID=<%=ds.get(i).getMaUser() %>"
                                         class="btn btn-info btn-sm text-white"><i class="bi bi-pencil "></i>
                                         </a>
                                         <a href="AddUserController?btDelete=delete&userID=<%=ds.get(i).getMaUser() %>" 

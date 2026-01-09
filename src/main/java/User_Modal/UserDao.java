@@ -58,7 +58,7 @@ public Boolean updateUser(User mv) throws SQLException, ClassNotFoundException{
 	
 	KetNoi kn = new KetNoi();
 	kn.ketnoi();
-	String sql = "Update KhachHang set HoTen =?, SDT=?, Email=?, TenDN=?, Role=? ) where MAKH =?";
+	String sql = "Update KhachHang set HoTen =?, SDT=?, Email=?, TenDN=?, Role=?, MatKhau=? where MAKH =?";
 	PreparedStatement cmd = kn.cn.prepareStatement(sql);
 	
 	
@@ -67,7 +67,8 @@ public Boolean updateUser(User mv) throws SQLException, ClassNotFoundException{
     cmd.setString(3, mv.getEmail());
     cmd.setString(4, mv.getTenDN());
     cmd.setString(5, mv.getRole());
-    cmd.setInt(6, mv.getMaUser());
+    cmd.setString(6, mv.getMatKhau());
+    cmd.setInt(7, mv.getMaUser());
 
     int kq = cmd.executeUpdate();
     

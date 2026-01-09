@@ -2,6 +2,7 @@ package History_Modal;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import History_Modal.GroupedHistory;
 
 
 
@@ -11,5 +12,9 @@ public class history_Bo {
 	public ArrayList<history> gethistory(int makh) throws ClassNotFoundException, SQLException{
 		ds = PhimDao.gethistory(makh);
 	return ds;
+	}
+
+	public ArrayList<GroupedHistory> getGroupedHistory(int makh) throws ClassNotFoundException, SQLException{
+		return PhimDao.getGroupedHistory(makh);
 	}
 }

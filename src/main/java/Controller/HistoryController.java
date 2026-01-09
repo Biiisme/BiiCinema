@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import History_Modal.history;
 import History_Modal.history_Bo;
+import History_Modal.GroupedHistory;
 import User_Modal.User;
 
 /**
@@ -45,15 +46,15 @@ public class HistoryController extends HttpServlet {
  			return;
  		}
 		history_Bo hisBo=new history_Bo();
-		ArrayList<history> tem = new ArrayList<history>();
+		ArrayList<GroupedHistory> groupedHistoryList = new ArrayList<GroupedHistory>();
 		try {
-			tem = hisBo.gethistory(u.getMaUser());
+			groupedHistoryList = hisBo.getGroupedHistory(u.getMaUser());
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		System.out.println("lichsu");
-		request.setAttribute("ds", tem);	
+		request.setAttribute("groupedHistoryList", groupedHistoryList);	
 		RequestDispatcher rd = request.getRequestDispatcher("history.jsp");
 		rd.forward(request, response);
 	}
