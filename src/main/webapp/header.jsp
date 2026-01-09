@@ -29,8 +29,10 @@ pageEncoding="UTF-8"%>
 					<li class="nav-item"><a  href="LogoutController" class="nav-link"><span
 							class="glyphicon glyphicon-log-in"></span>Đăng xuất</a></li>
 					<%}else{ %>
-					<li class="nav-item" type="button"  data-bs-toggle="modal" data-bs-target="#myModal"><a href="LoginController?login=login" class="nav-link"><span
-							class="glyphicon glyphicon-user"></span>Đăng nhập</a></li>
+					<li class="nav-item"><a href="LoginController?login=login" class="nav-link"><span
+							class="glyphicon glyphicon-log-in"></span>Đăng nhập</a></li>
+					<li class="nav-item"><a href="RegisterController?register=true" class="nav-link"><span
+							class="glyphicon glyphicon-user"></span>Đăng ký</a></li>
 					<%} %>
 				</ul>
 			</div>

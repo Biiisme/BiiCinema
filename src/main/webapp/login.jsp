@@ -52,6 +52,10 @@
                     <div class="text-center mt-3">
                         <a href="#" class="text-decoration-none">Forgot password?</a>
                     </div>
+                    <div class="text-center mt-2">
+                        <span class="text-muted">Chưa có tài khoản? </span>
+                        <a href="RegisterController?register=true" class="text-primary fw-bold">Đăng ký ngay</a>
+                    </div>
                 </div>
             </div>
         </div>
