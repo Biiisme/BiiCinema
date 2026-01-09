@@ -48,7 +48,14 @@
             padding: 5px 15px;
             border-radius: 5px;
         }
- 
+
+        /* Simple image preview styles */
+        #imagePreview img {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 5px;
+        }
+
     </style>
 </head>
 <body>
@@ -110,11 +117,11 @@
                                 <label for="moviePoster" class="form-label">Poster phim</label>
                                 <input type="file" class="form-control" id="moviePoster" name="Poster" accept="image/*">
                                 <small class="form-text text-muted">Để trống nếu không muốn thay đổi ảnh</small>
-                                <br>
-                                <% if (mv.getPoster_url() != null && !mv.getPoster_url().isEmpty()) { %>
-                                <img src="<%= mv.getPoster_url() %>" class="img-thumbnail" alt="Poster phim" style="max-width: 150px; margin-top: 10px;">
-                                <p class="text-muted">Ảnh hiện tại</p>
-                                <% } %>
+
+                                <!-- Image Preview -->
+                                <div id="imagePreview" class="mt-2" style="display: none;">
+                                    <img id="previewImg" src="" alt="Preview" style="max-width: 200px; max-height: 200px;">
+                                </div>
                             </div>
                             <div class="mb-3">
                                 <label for="movieTrailer" class="form-label">Link trailer</label>
@@ -172,6 +179,11 @@
                             <div class="mb-3">
                                 <label for="moviePoster" class="form-label">Poster phim</label>
                                 <input type="file" class="form-control" id="moviePoster" name="Poster" accept="image/*" required>
+
+                                <!-- Image Preview -->
+                                <div id="imagePreview" class="mt-2" style="display: none;">
+                                    <img id="previewImg" src="" alt="Preview" style="max-width: 200px; max-height: 200px;">
+                                </div>
                             </div>
                             <div class="mb-3">
                                 <label for="movieTrailer" class="form-label">Link trailer</label>
@@ -189,5 +201,25 @@
     
     <!-- Bootstrap 5 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Simple Image Preview Script -->
+    <script>
+        document.getElementById('moviePoster').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const preview = document.getElementById('imagePreview');
+            const previewImg = document.getElementById('previewImg');
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImg.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                preview.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>
