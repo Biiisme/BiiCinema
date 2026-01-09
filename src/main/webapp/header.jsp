@@ -5,7 +5,7 @@ pageEncoding="UTF-8"%>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 		<div class="container-fluid">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="trangChuController">BIICINEMA</a>
+				<a class="navbar-brand" href="trangChuController">Cinestar</a>
 			</div>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>

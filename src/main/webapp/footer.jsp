@@ -87,8 +87,8 @@
 
                 <div class="col-xs-12 col-sm-6 col-md-4">
                     <div class="widget subscribe no-box">
-                        <h5 class="widget-title">BIICINEMA<span></span></h5>
-                        <p>Cinema Tickets Booking Website By Phan Dinh Thang    Thank you so mush </p>
+                        <h5 class="widget-title">Cinestar<span></span></h5>
+                        <p>Cinema Tickets Booking Website By CinestarBi  Thank you so mush </p>
                     </div>
                 </div>
 
@@ -124,7 +124,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <p>BIICINEMA 2024. All rights reserved.</p>
+                    <p>Cinestar 2025. All rights reserved.</p>
                 </div>
             </div>
         </div>

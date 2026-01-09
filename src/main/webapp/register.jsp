@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đăng Ký Tài Khoản - BiiCinema</title>
+    <title>Đăng Ký Tài Khoản - Cinestar</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome Icons -->
@@ -134,7 +134,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="HomePageController">
-                <i class="fas fa-film"></i> BiiCinema
+                <i class="fas fa-film"></i> Cinestar
             </a>
             <div class="navbar-nav ms-auto">
                 <a class="nav-link" href="LoginController?login=true">
@@ -149,7 +149,7 @@
             <div class="register-header">
                 <i class="fas fa-user-plus fa-3x mb-3"></i>
                 <h2>Đăng Ký Tài Khoản</h2>
-                <p class="mb-0">Tham gia cùng BiiCinema để trải nghiệm xem phim tuyệt vời</p>
+                <p class="mb-0">Tham gia cùng Cinestar để trải nghiệm xem phim tuyệt vời</p>
             </div>
 
             <div class="register-body">

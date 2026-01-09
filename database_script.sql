@@ -1,5 +1,5 @@
 -- =============================================
--- Script tạo Database cho Hệ Thống Rạp Chiếu Phim (BiiCinema)
+-- Script tạo Database cho Hệ Thống Rạp Chiếu Phim (Cinestar)
 -- Database: bi_cinema
 -- =============================================
 
